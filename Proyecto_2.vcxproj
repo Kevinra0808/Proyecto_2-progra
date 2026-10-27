@@ -140,10 +140,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cliente.cpp" />
+    <ClCompile Include="colaborador.cpp" />
+    <ClCompile Include="empresa.cpp" />
+    <ClCompile Include="listaCliente.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="nodoCliente.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cliente.h" />
+    <ClInclude Include="colaborador.h" />
+    <ClInclude Include="empresa.h" />
+    <ClInclude Include="listaCliente.h" />
+    <ClInclude Include="nodoCliente.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

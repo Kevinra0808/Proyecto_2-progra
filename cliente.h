@@ -8,31 +8,28 @@ class Cliente
 {
 protected:
 
-	string identificacion;
+	string identi;
 	string nombre;
 	string telefono;
 	string correo;
 
 public:
 
-	Cliente(string identificacion, string nombre, string telefono, string correo);
+	Cliente(string identi, string nombre, string telefono, string correo);
 
 	//Gets
-	string getIdentificacion();
-	string getNombre();
-	string getTelefono();
-	string getCorreo();
+	string getIdentificacion() const;
+	string getNombre() const;
+	string getTelefono() const;
+	string getCorreo() const;
 
 	//Sets
-	void setIdentificacion();
-	void setNombre();
-	void setTelefono();
-	void setCorreo();
+	void setNombre(string nombre);
+	void setTelefono(string telefono);
+	void setCorreo(string correo);
 
 	//Metodos
-
-	virtual void mostrarInfo();
-
+	virtual void mostrarInfo() const;
 
 };
 
