@@ -2,6 +2,7 @@
 
 NodoCliente::NodoCliente(Cliente* cliente) {
 	this->cliente = cliente;
+	this->siguiente = nullptr;
 }
 
 Cliente* NodoCliente::getCliente() {
