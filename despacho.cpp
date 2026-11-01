@@ -100,7 +100,7 @@ void Despacho::mostrarDespacho() const {
 }
 
 bool Despacho::finalizarEntrega(Despacho* despacho, Paquete* paquete) {
-	if (despacho->getEstado() == "En proceso" && paquete->getEstado() == "En tránsito") {
+	if (despacho->getEstado() == "En proceso" && paquete->getEstado() == "En transito") {
 		despacho->setEstado("Finalizado");
 		paquete->setEstado("Entregado");
 		return true;

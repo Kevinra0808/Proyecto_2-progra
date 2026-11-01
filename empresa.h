@@ -6,7 +6,7 @@ class Empresa : public Cliente
 {
 private:
 
-	//los demás atributo al usar herencia ya los tengo en la clase hija así ya no los vuelvo a declarar
+	//los demas atributo al usar herencia ya los tengo en la clase hija asi ya no los vuelvo a declarar
 	string activiEco;
 	float descuento;
 

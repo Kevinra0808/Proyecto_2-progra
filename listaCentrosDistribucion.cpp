@@ -72,7 +72,7 @@ bool ListaCentrosDistribucion::eliminarCentro(string codigo) {
 		if (actual->getDato()->getCodigo() == codigo)
 		{
 			if (!actual->getDato()->estaVacio()) {	
-				cout << "Error: El centro de distribución no se puede eliminar porque aún tiene paquetes." << endl;
+				cout << "Error: El centro de distribucion no se puede eliminar porque aun tiene paquetes." << endl;
 				return false;
 			}
 

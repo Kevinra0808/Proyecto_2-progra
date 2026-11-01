@@ -72,7 +72,7 @@ bool ListaBodegas::eliminarBodega(string codigo) {
 		if (actual->getDato()->getCodigo() == codigo)
 		{
 			if (!actual->getDato()->estaVacia()) {
-				cout << "Error: La bodega no se puede eliminar porque aún tiene paquetes." << endl;
+				cout << "Error: La bodega no se puede eliminar porque aun tiene paquetes." << endl;
 				return false;
 			}
 

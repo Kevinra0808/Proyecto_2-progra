@@ -51,11 +51,11 @@ ListaColaboradores* CentroDistribucion::getListaColaboradores() {
 
 
 void CentroDistribucion::mostrarCentro() const {
-	cout << "Código: " << codigo << endl;
+	cout << "Codigo: " << codigo << endl;
 	cout << "Nombre: " << nombre << endl;
 	cout << "Provincia: " << provincia << endl;
-	cout << "Dirección Descriptiva: " << direccionDescriptiva << endl;
-	cout << "Teléfono: " << telefono << endl;
+	cout << "Direccion Descriptiva: " << direccionDescriptiva << endl;
+	cout << "Telefono: " << telefono << endl;
 }
 bool CentroDistribucion::estaVacio() const {
 	return listaClientes.estaVacio() &&

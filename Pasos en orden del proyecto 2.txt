@@ -1,34 +1,34 @@
 Pasos en orden del proyecto 2
 
 1. Nodos y Listas Enlazadas Faltantes
-El proyecto exige varias listas enlazadas dinámicas obligatorias. Ya hiciste la de clientes, colaboradores y paquetes, pero te faltan estas cuatro colecciones fundamentales:
+El proyecto exige varias listas enlazadas dinamicas obligatorias. Ya hiciste la de clientes, colaboradores y paquetes, pero te faltan estas cuatro colecciones fundamentales:
 
-Lista de Bodegas por centro: Necesitas crear nodoBodega y listaBodegas para que cada centro pueda tener múltiples bodegas.
+Lista de Bodegas por centro: Necesitas crear nodoBodega y listaBodegas para que cada centro pueda tener multiples bodegas.
 
-Lista de Solicitudes de Envío: Según la rúbrica, debes gestionar solicitudes (Pendiente, Aprobada, Rechazada, Anulada). Necesitas crear la clase Solicitud (o solicitudEnvio), su nodoSolicitud y su listaSolicitudes.
+Lista de Solicitudes de Envio: Segun la rubrica, debes gestionar solicitudes (Pendiente, Aprobada, Rechazada, Anulada). Necesitas crear la clase Solicitud (o solicitudEnvio), su nodoSolicitud y su listaSolicitudes.
 
 Lista de Despachos: Todo paquete con solicitud aprobada genera un despacho (En proceso, Entregado, Incidencia). Necesitas crear la clase Despacho, su nodoDespacho y su listaDespachos.
 
-Bitácora de Estados de Paquete: El proyecto indica que cada cambio de estado de un paquete debe registrarse en una lista enlazada interna que no se puede borrar. Necesitas crear una clase RegistroBitacora (o cambioEstado), su nodo y la lista correspondiente dentro de la clase Paquete.
+Bitacora de Estados de Paquete: El proyecto indica que cada cambio de estado de un paquete debe registrarse en una lista enlazada interna que no se puede borrar. Necesitas crear una clase RegistroBitacora (o cambioEstado), su nodo y la lista correspondiente dentro de la clase Paquete.
 
-2. La Clase Gestora Principal: "Centro de Distribución"
-En el punto 1 del documento se explica que el sistema administra "Centros de Distribución". Cada centro es dueño de sus propias listas.
+2. La Clase Gestora Principal: "Centro de Distribucion"
+En el punto 1 del documento se explica que el sistema administra "Centros de Distribucion". Cada centro es dueño de sus propias listas.
 Debes crear la clase CentroDistribucion.
 
-Atributos: Código único, nombre, provincia, dirección, teléfono.
+Atributos: Codigo unico, nombre, provincia, direccion, telefono.
 
 Listas que debe contener como atributos: Su propia ListaClientes, ListaColaboradores, ListaPaquetes, ListaBodegas, ListaSolicitudes y ListaDespachos.
 
-3. Lista Global de Centros de Distribución
-Para que la empresa pueda tener su red, el programa principal o una clase superior debe tener una lista enlazada dinámica que guarde a todos los Centros de Distribución.
+3. Lista Global de Centros de Distribucion
+Para que la empresa pueda tener su red, el programa principal o una clase superior debe tener una lista enlazada dinamica que guarde a todos los Centros de Distribucion.
 
 Necesitas crear nodoCentro y listaCentros.
 
-4. Menús y Sistema Principal (main.cpp)
+4. Menus y Sistema Principal (main.cpp)
 El sistema debe estar vivo. Necesitas crear una interfaz de consola interactiva con ciclos do-while y switch para acceder a las funcionalidades requeridas.
 
-Gestión: Menús para registrar, buscar, mostrar y eliminar en cada una de las listas (respetando las reglas de eliminación del punto 12).
+Gestion: Menus para registrar, buscar, mostrar y eliminar en cada una de las listas (respetando las reglas de eliminacion del punto 12).
 
-Operativas: Lógica para asignar un paquete a la matriz de una bodega, aprobar solicitudes (validando y calculando costos), y gestionar la bitácora de los despachos.
+Operativas: Logica para asignar un paquete a la matriz de una bodega, aprobar solicitudes (validando y calculando costos), y gestionar la bitacora de los despachos.
 
-Reportes: Crear el submenú para los 6 reportes exigidos en la tabla (Historial de cliente, Clientes por cantidad de envíos, Bitácora, Consulta de despacho, Ocupación de bodegas y Despachos por colaborador).
+Reportes: Crear el submenu para los 6 reportes exigidos en la tabla (Historial de cliente, Clientes por cantidad de envios, Bitacora, Consulta de despacho, Ocupacion de bodegas y Despachos por colaborador).

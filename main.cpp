@@ -134,7 +134,8 @@ int main()
 					string identificacion;
 					cout << "Identificacion: "; cin >> identificacion;
 					Cliente* cliente = centro->getListaClientes()->buscar(identificacion);
-					if (cliente != nullptr) cliente->mostrarInfo();
+					if (Empresa* empresa = dynamic_cast<Empresa*>(cliente)) empresa->mostrarInfo();
+					else if (cliente != nullptr) cliente->mostrarInfo();
 					else cout << "Cliente no encontrado.\n";
 				}
 				else if (opcionCliente == 3)
@@ -442,7 +443,7 @@ int main()
 					cout << "Fecha: "; cin >> fecha;
 					cout << "Hora: "; cin >> hora;
 					centro->getListaDespachos()->insertarDespacho(new Despacho(codigo, solicitud, solicitud->getPaquete(), solicitud->getSoliCliente(), solicitud->getResponsable(), centro->getCodigo(), solicitud->getDestinoEntrega(), fecha, hora));
-					solicitud->getPaquete()->setEstado("En tránsito");
+					solicitud->getPaquete()->setEstado("En transito");
 					solicitud->setEstado("En despacho");
 					bitacora.insertarBitacora(new Bitacora("Pendiente", "En despacho", fecha, solicitud->getResponsable()));
 				}

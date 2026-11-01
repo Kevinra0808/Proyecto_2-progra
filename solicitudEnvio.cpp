@@ -111,7 +111,7 @@ double SolicitudEnvio::calcularCostoBase(float peso, string categoria) const {
 		return peso * 1000;
 	}
 	else {
-		int error = -1; // Código de error para categoría no válida
+		int error = -1; // Codigo de error para categoria no valida
 		return error;
 	}
 }
