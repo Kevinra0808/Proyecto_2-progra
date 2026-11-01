@@ -2,7 +2,6 @@
 #define EMPRESA_H
 #include "cliente.h"
 
-
 class Empresa : public Cliente
 {
 private:

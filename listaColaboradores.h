@@ -1,5 +1,5 @@
-#ifndef LISTACOLABORADOR_H
-#define LISTACOLABORADOR_H
+#ifndef LISTACOLABORADORES_H
+#define LISTACOLABORADORES_H
 #include "nodoColaborador.h"
 #include <iostream>
 
@@ -21,7 +21,7 @@ public:
 
 };
 
-#endif // !LISTACOLABORADOR_H
+#endif // !LISTACOLABORADORES_H
 
 
 
