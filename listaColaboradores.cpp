@@ -62,3 +62,7 @@ Colaborador* ListaColaboradores::buscar(string identi) const {
 	}
 	return nullptr;
 }
+
+bool ListaColaboradores::estaVacio() const {
+	return primero == nullptr;
+}

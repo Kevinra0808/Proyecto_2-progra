@@ -140,12 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bodega.cpp" />
+    <ClCompile Include="centroDistribucion.cpp" />
     <ClCompile Include="cliente.cpp" />
     <ClCompile Include="colaborador.cpp" />
     <ClCompile Include="despacho.cpp" />
     <ClCompile Include="empresa.cpp" />
     <ClCompile Include="listaBitacora.cpp" />
     <ClCompile Include="listaBodegas.cpp" />
+    <ClCompile Include="listaCentrosDistribucion.cpp" />
     <ClCompile Include="listaClientes.cpp" />
     <ClCompile Include="listaColaboradores.cpp" />
     <ClCompile Include="listaDespachos.cpp" />
@@ -154,6 +156,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nodoBitacora.cpp" />
     <ClCompile Include="nodoBodega.cpp" />
+    <ClCompile Include="nodoCentroDistribucion.cpp" />
     <ClCompile Include="nodoCliente.cpp" />
     <ClCompile Include="nodoColaborador.cpp" />
     <ClCompile Include="nodoDespacho.cpp" />
@@ -165,12 +168,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bodega.h" />
+    <ClInclude Include="centroDistribucion.h" />
     <ClInclude Include="cliente.h" />
     <ClInclude Include="colaborador.h" />
     <ClInclude Include="despacho.h" />
     <ClInclude Include="empresa.h" />
     <ClInclude Include="listaBitacora.h" />
     <ClInclude Include="listaBodegas.h" />
+    <ClInclude Include="listaCentrosDistribucion.h" />
     <ClInclude Include="listaClientes.h" />
     <ClInclude Include="listaColaboradores.h" />
     <ClInclude Include="listaDespachos.h" />
@@ -178,6 +183,7 @@
     <ClInclude Include="listaSolicitudes.h" />
     <ClInclude Include="nodoBitacora.h" />
     <ClInclude Include="nodoBodega.h" />
+    <ClInclude Include="nodoCentroDistribucion.h" />
     <ClInclude Include="nodoCliente.h" />
     <ClInclude Include="nodoColaborador.h" />
     <ClInclude Include="nodoDespacho.h" />

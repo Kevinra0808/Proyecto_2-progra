@@ -71,3 +71,7 @@ bool ListaSolicitudes::cambiarEstado(string codigo, string nuevoEstado) {
 	}
 	return false;
 }
+
+bool ListaSolicitudes::estaVacio() const {
+	return primero == nullptr;
+}

@@ -62,3 +62,7 @@ Paquete* ListaPaquetes::buscar(string codigo) const {
 	}
 	return nullptr;
 }
+
+bool ListaPaquetes::estaVacio() const {
+	return primero == nullptr;
+}

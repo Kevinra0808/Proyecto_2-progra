@@ -20,6 +20,7 @@ public:
 	NodoDespacho* buscar(string codigo) const;
 
 	bool cambiarEstado(string codigo, string nuevoEstado);
+	bool estaVacio() const;
 };
 
 #endif // !LISTADESPACHOS_H

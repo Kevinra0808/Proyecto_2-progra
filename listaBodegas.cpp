@@ -95,3 +95,7 @@ bool ListaBodegas::eliminarBodega(string codigo) {
 	}
 	return false;
 }
+
+bool ListaBodegas::estaVacio() const {
+	return primero == nullptr;
+}

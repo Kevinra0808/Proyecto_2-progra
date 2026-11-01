@@ -74,3 +74,7 @@ bool ListaDespachos::cambiarEstado(string codigo, string nuevoEstado) {
 	}
 	return false;
 }
+
+bool ListaDespachos::estaVacio() const {
+	return primero == nullptr;
+}

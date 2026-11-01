@@ -19,6 +19,9 @@ public:
 	NodoSolicitud* buscar(string codigo) const;
 
 	bool cambiarEstado(string codigo, string nuevoEstado);
+
+	bool estaVacio() const;
+	
 };
 
 #endif // !LISTASOLICITUDES_H

@@ -21,6 +21,8 @@ public:
 	Bodega* buscar(string codigo) const;
 
 	bool eliminarBodega(string codigo);
+
+	bool estaVacio() const;
 };
 
 

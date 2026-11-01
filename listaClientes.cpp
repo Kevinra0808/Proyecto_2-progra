@@ -63,3 +63,7 @@ void ListaCliente::mostrarTodos() const {
 		aux = aux->getSiguiente();
 	}
 }
+
+bool ListaCliente::estaVacio() const {
+	return primero == nullptr;
+}

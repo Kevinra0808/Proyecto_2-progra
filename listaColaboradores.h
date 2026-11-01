@@ -18,6 +18,7 @@ public:
 	void insertarColaborador(Colaborador* nuevoColaborador);
 	void mostrar() const;
 	Colaborador* buscar(string identi) const;
+	bool estaVacio() const;
 
 };
 

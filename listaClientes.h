@@ -19,6 +19,7 @@ public:
 	void insertar(Cliente* cliente);
 	Cliente* buscar(string identi) const;
 	void mostrarTodos() const;
+	bool estaVacio() const;
 
 };
 
