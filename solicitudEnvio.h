@@ -20,10 +20,10 @@ private:
 	string estado;
 
 	// Tarifas por kilogramo: datos compartidos de la aplicacion (no se escriben dentro de cada calculo)
-	static const double TARIFA_GENERAL;
-	static const double TARIFA_FRAGIL;
-	static const double TARIFA_TECNOLOGIA;
-	static const double TARIFA_DOCUMENTOS;
+	static const double tarifaGeneral;
+	static const double tarifaFragil;
+	static const double tarifaTecnologia;
+	static const double tarifaDocumentos;
 
 public:
 	SolicitudEnvio(string codigo, Cliente* soliCliente, Paquete* paquete, Colaborador* responsable, string centroOrigen, string destinoEntrega, string fechaSoli);

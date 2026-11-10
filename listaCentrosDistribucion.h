@@ -20,7 +20,7 @@ public:
 	bool estaVacia() const;
 	NodoCentroDistribucion* getPrimero() const;
 
-	// Busquedas globales (los codigos de paquete, solicitud y despacho son unicos en todo el sistema)
+
 	Paquete* buscarPaquete(string codigo) const;
 	SolicitudEnvio* buscarSolicitud(string codigo) const;
 	Despacho* buscarDespacho(string codigo) const;

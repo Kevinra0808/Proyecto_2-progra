@@ -11,15 +11,13 @@ private:
 
 public:
 
-	//Constructor y desctructor
 	ListaCliente();
 	~ListaCliente();
 
-	//metodos
 	void insertar(Cliente* cliente);
 	Cliente* buscar(string identi) const;
 	void mostrarTodos() const;
-	bool eliminar(string identi); // las dependencias se validan en CentroDistribucion
+	bool eliminar(string identi);
 	bool estaVacio() const;
 	NodoCliente* getPrimero() const;
 

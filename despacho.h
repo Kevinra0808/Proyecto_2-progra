@@ -48,8 +48,8 @@ public:
 
 	void mostrarDespacho() const;
 
-	// Solo se finaliza si el despacho esta En proceso y el paquete En transito.
-	// Cambia el despacho a Finalizado y el paquete a Entregado (queda en la bitacora).
+	// solo se finaliza si el despacho esta En proceso y el paquete En transito.
+	// cambia el despacho a Finalizado y el paquete a Entregado (queda en la bitacora).
 	bool finalizarEntrega(string fecha);
 };
 

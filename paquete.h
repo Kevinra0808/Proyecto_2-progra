@@ -17,14 +17,13 @@ private:
 	string centroDis;
 	string estado;
 
-	string estadoAntesIncidencia; // para saber a donde regresa al resolverse la incidencia
+	string estadoAntesIncidencia; 
 
-	// Ubicacion actual (solo cuando esta Almacenado, o en Incidencia con celda asignada)
 	string bodegaAsignada;
 	int fila;
 	int columna;
 
-	ListaBitacora bitacora; // cada paquete tiene su propia bitacora enlazada
+	ListaBitacora bitacora;
 
 public:
 	Paquete();
@@ -50,15 +49,14 @@ public:
 	void setCategoria(string categoria);	
 	void setCentroDis(string centroDis);
 
-	//Ubicacion
 	bool tieneUbicacion() const;
 	void asignarUbicacion(string codigoBodega, int fila, int columna);
 	void liberarUbicacion();
 
-	//Estados: valida la tabla de transiciones y registra el cambio en la bitacora
+	//valida la tabla de transiciones y registra el cambio en la bitacora
 	bool cambiarEstado(string nuevoEstado, Colaborador* responsable, string fecha);
 	static bool transicionValida(string actual, string nuevo);
-	static string normalizarCategoria(string categoria); // devuelve "" si no es valida
+	static string normalizarCategoria(string categoria); 
 
 	void mostrarInfo() const;
 

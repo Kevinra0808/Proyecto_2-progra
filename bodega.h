@@ -11,10 +11,10 @@ class Bodega {
 private:
 	string codigo;
 	string nombre;
-	int tipo; // 1 General, 2 Fragil, 3 Tecnologia, 4 Documentos
+	int tipo;
 	int filas, columnas;
 
-	Paquete*** matriz; // matriz dinamica de celdas (nullptr = celda libre)
+	Paquete*** matriz; 
 
 public:
 	Bodega(string codigo, string nombre, int tipo, int filas, int columnas);
@@ -31,12 +31,12 @@ public:
 	static bool tipoValido(int tipo);
 	static string nombreTipo(int tipo);
 	string getNombreTipo() const;
-	bool esCompatible(string categoria) const; // compatibilidad directa categoria <-> tipo
+	bool esCompatible(string categoria) const; 
 
 	// Celdas
 	bool existeCelda(int fila, int columna) const;
 	bool estaLibre(int fila, int columna) const;
-	string codigoCelda(int fila, int columna) const; // por ejemplo A-00
+	string codigoCelda(int fila, int columna) const; 
 	bool colocarPaquete(Paquete* paquete, int fila, int columna);
 	bool liberarCelda(int fila, int columna);
 	Paquete* obtenerPaquete(int fila, int columna) const;
@@ -52,8 +52,8 @@ public:
 
 	// Vistas en consola
 	void mostrarResumen() const;
-	void mostrarBodega() const;      // matriz grafica con todas las celdas
-	void mostrarCeldasLibres() const; // lista de celdas disponibles
+	void mostrarBodega() const;      
+	void mostrarCeldasLibres() const; 
 };
 
 #endif // !BODEGA_H

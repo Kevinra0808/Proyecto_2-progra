@@ -97,7 +97,7 @@ void Paquete::setCentroDis(string centroDis) {
 	this->centroDis = centroDis;
 }
 
-//Ubicacion
+
 bool Paquete::tieneUbicacion() const {
 	return bodegaAsignada != "";
 }
@@ -114,11 +114,10 @@ void Paquete::liberarUbicacion() {
 	columna = -1;
 }
 
-// Tabla de transiciones del enunciado (filas = estado actual, columnas = nuevo estado)
+
 bool Paquete::transicionValida(string actual, string nuevo) {
 	const int n = 5;
 	string nombres[n] = { "Recibido", "Almacenado", "En transito", "Entregado", "Incidencia" };
-	// 1 = Si, 0 = No (la diagonal "Actual" no es un cambio, por eso es 0)
 	int tabla[n][n] = {
 		{ 0, 1, 0, 0, 1 },
 		{ 0, 0, 1, 0, 1 },

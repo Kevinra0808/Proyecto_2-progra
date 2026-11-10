@@ -3,10 +3,10 @@
 
 using namespace std;
 
-const double SolicitudEnvio::TARIFA_GENERAL = 1500;
-const double SolicitudEnvio::TARIFA_FRAGIL = 2000;
-const double SolicitudEnvio::TARIFA_TECNOLOGIA = 2500;
-const double SolicitudEnvio::TARIFA_DOCUMENTOS = 1000;
+const double SolicitudEnvio::tarifaGeneral = 1500;
+const double SolicitudEnvio::tarifaFragil = 2000;
+const double SolicitudEnvio::tarifaTecnologia = 2500;
+const double SolicitudEnvio::tarifaDocumentos = 1000;
 
 SolicitudEnvio::SolicitudEnvio(string codigo, Cliente* soliCliente, Paquete* paquete, Colaborador* responsable, string centroOrigen, string destinoEntrega, string fechaSoli) {
 	this->codigo = codigo;
@@ -74,7 +74,7 @@ void SolicitudEnvio::setCostoEstimado(double costoEstimado) {
 }
 bool SolicitudEnvio::cambiarEstado(string nuevoEstado) {
 	if (estado != "Pendiente") {
-		return false; // Aprobada, Rechazada y Anulada son estados finales
+		return false;
 	}
 	if (nuevoEstado != "Aprobada" && nuevoEstado != "Rechazada" && nuevoEstado != "Anulada") {
 		return false;
@@ -100,10 +100,10 @@ void SolicitudEnvio::mostrarSolicitud() const {
 }
 
 double SolicitudEnvio::getTarifa(string categoria) {
-	if (categoria == "General") return TARIFA_GENERAL;
-	if (categoria == "Fragil") return TARIFA_FRAGIL;
-	if (categoria == "Tecnologia") return TARIFA_TECNOLOGIA;
-	if (categoria == "Documentos") return TARIFA_DOCUMENTOS;
+	if (categoria == "General") return tarifaGeneral;
+	if (categoria == "Fragil") return tarifaFragil;
+	if (categoria == "Tecnologia") return tarifaTecnologia;
+	if (categoria == "Documentos") return tarifaDocumentos;
 	return -1;
 }
 
@@ -119,7 +119,6 @@ double SolicitudEnvio::calcularCostoBase(float peso, string categoria) const {
 void SolicitudEnvio::calcularCostoEstimado() {
 	double costoBase = calcularCostoBase(paquete->getPeso(), paquete->getCategoria());
 
-	// Las personas fisicas devuelven 0% de descuento; las empresas, su porcentaje autorizado
 	float descuento = soliCliente->getDescuento();
 	costoEstimado = costoBase - ((costoBase * descuento) / 100);
 }

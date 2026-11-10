@@ -49,7 +49,7 @@ int Bodega::getColumnas() const {
 	return columnas;
 }
 
-// Tipos de bodega
+
 bool Bodega::tipoValido(int tipo) {
 	return tipo >= 1 && tipo <= 4;
 }
@@ -72,7 +72,7 @@ bool Bodega::esCompatible(string categoria) const {
 	return categoria == getNombreTipo();
 }
 
-// Celdas
+
 bool Bodega::existeCelda(int fila, int columna) const {
 	return fila >= 0 && fila < filas && columna >= 0 && columna < columnas;
 }
@@ -82,7 +82,7 @@ bool Bodega::estaLibre(int fila, int columna) const {
 }
 
 string Bodega::codigoCelda(int fila, int columna) const {
-	// Con indices de un digito: A-12. Con dos o mas digitos se usa un punto: A-12.03
+	
 	if (filas <= 10 && columnas <= 10) {
 		return codigo + "-" + to_string(fila) + to_string(columna);
 	}
@@ -129,7 +129,6 @@ bool Bodega::primeraCeldaLibre(int& fila, int& columna) const {
 	return false;
 }
 
-// Ocupacion
 int Bodega::totalCeldas() const {
 	return filas * columnas;
 }
@@ -165,7 +164,6 @@ bool Bodega::estaVacia() const {
 	return celdasOcupadas() == 0;
 }
 
-// Vistas en consola
 void Bodega::mostrarResumen() const {
 	cout << "Codigo: " << codigo << endl;
 	cout << "Nombre: " << nombre << endl;
@@ -175,8 +173,7 @@ void Bodega::mostrarResumen() const {
 }
 
 void Bodega::mostrarBodega() const {
-	// Ancho de cada celda segun el texto mas largo que se va a mostrar
-	size_t ancho = 5; // "LIBRE"
+	size_t ancho = 5;
 	for (int i = 0; i < filas; i++) {
 		for (int j = 0; j < columnas; j++) {
 			size_t largo = codigoCelda(i, j).length();
@@ -198,7 +195,6 @@ void Bodega::mostrarBodega() const {
 	for (int i = 0; i < filas; i++) {
 		cout << linea << endl;
 
-		// primera linea: codigo de celda
 		cout << "|";
 		for (int j = 0; j < columnas; j++) {
 			string texto = codigoCelda(i, j);
@@ -206,7 +202,6 @@ void Bodega::mostrarBodega() const {
 		}
 		cout << endl;
 
-		// segunda linea: LIBRE o codigo del paquete
 		cout << "|";
 		for (int j = 0; j < columnas; j++) {
 			string texto = (matriz[i][j] == nullptr) ? "LIBRE" : matriz[i][j]->getCodigo();

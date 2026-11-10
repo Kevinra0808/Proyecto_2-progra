@@ -66,7 +66,7 @@ bool CentroDistribucion::estaVacio() const {
 		listaDespachos.estaVacio();
 }
 
-// ================== Busquedas auxiliares ==================
+
 bool CentroDistribucion::perteneceCliente(Cliente* cliente) {
 	return cliente != nullptr && listaClientes.buscar(cliente->getIdentificacion()) == cliente;
 }
@@ -117,7 +117,6 @@ SolicitudEnvio* CentroDistribucion::buscarSolicitudAprobadaDePaquete(Paquete* pa
 	return nullptr;
 }
 
-// ================== Almacenamiento de paquetes ==================
 Bodega* CentroDistribucion::recomendarBodega(Paquete* paquete) {
 	Bodega* mejor = nullptr;
 	NodoBodega* aux = listaBodegas.getPrimero();
@@ -143,7 +142,6 @@ bool CentroDistribucion::hayBodegaCompatibleConEspacio(Paquete* paquete) {
 
 bool CentroDistribucion::almacenarPaquete(Paquete* paquete, Bodega* bodega, int fila, int columna, Colaborador* responsable, string fecha, string& error) {
 	bool recibido = paquete->getEstado() == "Recibido";
-	// Una incidencia ocurrida antes del almacenamiento sigue el mismo procedimiento al resolverse
 	bool incidenciaSinCelda = paquete->getEstado() == "Incidencia" && !paquete->tieneUbicacion()
 		&& paquete->getEstadoAntesIncidencia() == "Recibido";
 
@@ -193,7 +191,6 @@ bool CentroDistribucion::almacenarPaquete(Paquete* paquete, Bodega* bodega, int 
 
 	if (!paquete->cambiarEstado("Almacenado", responsable, fecha))
 	{
-		// se deshace la asignacion para no dejar el paquete a medias
 		bodega->liberarCelda(fila, columna);
 		paquete->liberarUbicacion();
 		error = "No se pudo cambiar el estado a Almacenado.";
@@ -215,7 +212,6 @@ bool CentroDistribucion::reubicarPaquete(Paquete* paquete, Bodega* destino, int 
 		return false;
 	}
 
-	// Primero se valida todo el destino; la celda actual no se toca hasta que sea seguro
 	if (destino == nullptr || listaBodegas.buscar(destino->getCodigo()) != destino)
 	{
 		error = "La bodega destino no existe en este centro.";
@@ -259,7 +255,6 @@ bool CentroDistribucion::registrarIncidencia(Paquete* paquete, Colaborador* resp
 		error = "La fecha no puede estar vacia.";
 		return false;
 	}
-	// La celda (si la tiene) permanece asignada; si esta En transito, el despacho sigue En proceso
 	if (!paquete->cambiarEstado("Incidencia", responsable, fecha))
 	{
 		error = "Desde el estado " + paquete->getEstado() + " no se puede registrar una incidencia.";
@@ -289,7 +284,6 @@ bool CentroDistribucion::resolverIncidencia(Paquete* paquete, Colaborador* respo
 
 	if (anterior == "Almacenado")
 	{
-		// la celda sigue asignada
 		return paquete->cambiarEstado("Almacenado", responsable, fecha);
 	}
 	if (anterior == "En transito")
@@ -303,12 +297,10 @@ bool CentroDistribucion::resolverIncidencia(Paquete* paquete, Colaborador* respo
 		return paquete->cambiarEstado("En transito", responsable, fecha);
 	}
 
-	// La incidencia ocurrio estando Recibido: no tiene celda y debe almacenarse con el procedimiento normal
 	error = "La incidencia ocurrio antes del almacenamiento: use la opcion Almacenar paquete para resolverla.";
 	return false;
 }
 
-// ================== Solicitudes y despachos ==================
 SolicitudEnvio* CentroDistribucion::crearSolicitud(string codigoSolicitud, Cliente* cliente, Paquete* paquete, Colaborador* responsable, string destino, string fecha, string& error) {
 	if (codigoSolicitud == "" || destino == "" || fecha == "")
 	{
@@ -388,7 +380,6 @@ Despacho* CentroDistribucion::aprobarSolicitud(SolicitudEnvio* solicitud, string
 		return nullptr;
 	}
 
-	// El paquete pasa a En transito y libera inmediatamente su celda
 	string codigoBodega = paquete->getBodegaAsignada();
 	int fila = paquete->getFila();
 	int columna = paquete->getColumna();
@@ -443,7 +434,7 @@ bool CentroDistribucion::finalizarDespacho(Despacho* despacho, string fecha, str
 	return true;
 }
 
-// ================== Eliminaciones ==================
+
 bool CentroDistribucion::eliminarCliente(string identificacion, string& error) {
 	Cliente* cliente = listaClientes.buscar(identificacion);
 
@@ -597,7 +588,7 @@ bool CentroDistribucion::eliminarBodega(string codigoBodega, string& error) {
 	return listaBodegas.eliminarBodega(codigoBodega);
 }
 
-// ================== Reportes ==================
+
 void CentroDistribucion::reporteHistorialCliente(Cliente* cliente) {
 	cout << "\n=== HISTORIAL DEL CLIENTE " << cliente->getIdentificacion() << " - " << cliente->getNombre() << " ===" << endl;
 
@@ -635,7 +626,6 @@ void CentroDistribucion::reporteHistorialCliente(Cliente* cliente) {
 }
 
 void CentroDistribucion::reporteClientesPorEnvios() {
-	// Se cuentan los clientes y se guardan en arreglos dinamicos (sin contenedores de la STL)
 	int n = 0;
 	NodoCliente* c = listaClientes.getPrimero();
 	while (c != nullptr)
@@ -674,7 +664,7 @@ void CentroDistribucion::reporteClientesPorEnvios() {
 		c = c->getSiguiente();
 	}
 
-	// Ordenamiento por insercion (estable): en caso de empate se conserva el orden de la lista
+
 	for (int j = 1; j < n; j++)
 	{
 		Cliente* clienteActual = clientes[j];

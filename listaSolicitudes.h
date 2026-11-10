@@ -18,7 +18,6 @@ public:
 	void mostrarSolicitudes() const;
 	SolicitudEnvio* buscar(string codigo) const;
 
-	// Solo permite Pendiente -> Rechazada / Anulada (la aprobacion se hace en CentroDistribucion)
 	bool cambiarEstado(string codigo, string nuevoEstado);
 
 	bool estaVacio() const;
