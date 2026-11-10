@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// Clase base abstracta: los dos tipos de cliente (PersonaFisica y Empresa) heredan de ella
+
 class Cliente
 {
 protected:

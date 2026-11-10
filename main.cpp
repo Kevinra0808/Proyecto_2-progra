@@ -1,7 +1,5 @@
 #include <iostream>
 #include <string>
-#include <cstdlib>
-#include <cctype>
 #include "bitacora.h"
 #include "bodega.h"
 #include "cliente.h"
@@ -21,66 +19,106 @@ using namespace std;
 //  abruptamente por una entrada invalida)
 // =====================================================================
 
-static string leerLinea(const string& mensaje)
+string leerLinea(const string& mensaje)
 {
 	string texto;
 	while (true)
 	{
 		cout << mensaje;
 		getline(cin, texto);
-		if (cin.eof())
+		int inicio = 0;
+		int fin = (int)texto.length() - 1;
+
+		while (inicio <= fin && (texto[inicio] == ' ' || texto[inicio] == '\t' || texto[inicio] == '\r'))
+			inicio++;
+		while (fin >= inicio && (texto[fin] == ' ' || texto[fin] == '\t' || texto[fin] == '\r'))
+			fin--;
+
+		if (inicio <= fin)
 		{
-			cout << "\nFin de la entrada. Saliendo del sistema...\n";
-			exit(0);
-		}
-		// se eliminan los espacios al inicio y al final
-		size_t inicio = texto.find_first_not_of(" \t\r");
-		if (inicio != string::npos)
-		{
-			size_t fin = texto.find_last_not_of(" \t\r");
-			return texto.substr(inicio, fin - inicio + 1);
+			string resultado = "";
+			for (int i = inicio; i <= fin; i++)
+				resultado += texto[i];
+			return resultado;
 		}
 		cout << "Este dato no puede quedar vacio.\n";
 	}
 }
 
-static int leerEntero(const string& mensaje, int minimo, int maximo)
+int leerEntero(const string& mensaje, int minimo, int maximo)
 {
 	while (true)
 	{
 		string texto = leerLinea(mensaje);
-		char* fin = nullptr;
-		long valor = strtol(texto.c_str(), &fin, 10);
-		if (*fin == '\0' && valor >= minimo && valor <= maximo)
+		int valor = 0;
+		bool esNumero = texto.length() > 0 && texto.length() <= 9;
+
+		for (int i = 0; i < texto.length() && esNumero; i++)
 		{
-			return (int)valor;
+			if (texto[i] < '0' || texto[i] > '9')
+				esNumero = false;
+			else
+				valor = valor * 10 + (texto[i] - '0');
+		}
+
+		if (esNumero && valor >= minimo && valor <= maximo)
+		{
+			return valor;
 		}
 		cout << "Ingrese un numero entero entre " << minimo << " y " << maximo << ".\n";
 	}
 }
 
-static double leerDecimal(const string& mensaje, double minimo, double maximo, bool incluyeMinimo)
+double leerDecimal(const string& mensaje, double minimo, double maximo, bool incluyeMinimo)
 {
 	while (true)
 	{
 		string texto = leerLinea(mensaje);
-		for (size_t i = 0; i < texto.length(); i++)
+		double valor = 0;
+		double posicionDecimal = 0.1;
+		bool esNumero = texto.length() > 0 && texto.length() <= 12;
+		bool tieneDigito = false;
+		bool tieneDecimal = false;
+
+		for (int i = 0; i < texto.length() && esNumero; i++)
 		{
-			if (texto[i] == ',') texto[i] = '.';
+			if (texto[i] >= '0' && texto[i] <= '9')
+			{
+				tieneDigito = true;
+				int digito = texto[i] - '0';
+				if (tieneDecimal)
+				{
+					valor += digito * posicionDecimal;
+					posicionDecimal *= 0.1;
+				}
+				else
+					valor = valor * 10 + digito;
+			}
+			else if ((texto[i] == '.' || texto[i] == ',') && !tieneDecimal)
+				tieneDecimal = true;
+			else
+				esNumero = false;
 		}
-		char* fin = nullptr;
-		double valor = strtod(texto.c_str(), &fin);
-		bool enRango = (incluyeMinimo ? valor >= minimo : valor > minimo) && valor <= maximo;
-		if (*fin == '\0' && enRango)
+
+		bool minimoValido;
+		if (incluyeMinimo)
+			minimoValido = valor >= minimo;
+		else
+			minimoValido = valor > minimo;
+
+		if (esNumero && tieneDigito && minimoValido && valor <= maximo)
 		{
 			return valor;
 		}
-		cout << "Ingrese un numero " << (incluyeMinimo ? "mayor o igual a " : "mayor que ") << minimo
-			<< " y menor o igual a " << maximo << ".\n";
+		if (incluyeMinimo)
+			cout << "Ingrese un numero mayor o igual a " << minimo;
+		else
+			cout << "Ingrese un numero mayor que " << minimo;
+		cout << " y menor o igual a " << maximo << ".\n";
 	}
 }
 
-static bool fechaValida(const string& f)
+bool fechaValida(const string& f)
 {
 	if (f.length() != 10 || f[2] != '/' || f[5] != '/')
 	{
@@ -88,19 +126,19 @@ static bool fechaValida(const string& f)
 	}
 	for (int i = 0; i < 10; i++)
 	{
-		if (i != 2 && i != 5 && !isdigit((unsigned char)f[i]))
+		if (i != 2 && i != 5 && (f[i] < '0' || f[i] > '9'))
 		{
 			return false;
 		}
 	}
-	int dia = atoi(f.substr(0, 2).c_str());
-	int mes = atoi(f.substr(3, 2).c_str());
-	int anio = atoi(f.substr(6, 4).c_str());
+	int dia = (f[0] - '0') * 10 + (f[1] - '0');
+	int mes = (f[3] - '0') * 10 + (f[4] - '0');
+	int anio = (f[6] - '0') * 1000 + (f[7] - '0') * 100 + (f[8] - '0') * 10 + (f[9] - '0');
 	int diasMes[12] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	return mes >= 1 && mes <= 12 && dia >= 1 && dia <= diasMes[mes - 1] && anio >= 1900 && anio <= 2100;
 }
 
-static string leerFecha(const string& mensaje)
+string leerFecha(const string& mensaje)
 {
 	while (true)
 	{
@@ -113,16 +151,17 @@ static string leerFecha(const string& mensaje)
 	}
 }
 
-static string leerHora(const string& mensaje)
+string leerHora(const string& mensaje)
 {
 	while (true)
 	{
 		string h = leerLinea(mensaje + " (hh:mm): ");
-		if (h.length() == 5 && h[2] == ':' && isdigit((unsigned char)h[0]) && isdigit((unsigned char)h[1])
-			&& isdigit((unsigned char)h[3]) && isdigit((unsigned char)h[4]))
+		if (h.length() == 5 && h[2] == ':' && h[0] >= '0' && h[0] <= '9'
+			&& h[1] >= '0' && h[1] <= '9' && h[3] >= '0' && h[3] <= '9'
+			&& h[4] >= '0' && h[4] <= '9')
 		{
-			int hh = atoi(h.substr(0, 2).c_str());
-			int mm = atoi(h.substr(3, 2).c_str());
+			int hh = (h[0] - '0') * 10 + (h[1] - '0');
+			int mm = (h[3] - '0') * 10 + (h[4] - '0');
 			if (hh <= 23 && mm <= 59)
 			{
 				return h;
@@ -132,12 +171,19 @@ static string leerHora(const string& mensaje)
 	}
 }
 
-static string leerCorreo()
+string leerCorreo()
 {
 	while (true)
 	{
 		string correo = leerLinea("Correo electronico: ");
-		if (correo.find('@') != string::npos && correo.find(' ') == string::npos)
+		bool tieneArroba = false;
+		bool tieneEspacio = false;
+		for (int i = 0; i < correo.length(); i++)
+		{
+			if (correo[i] == '@') tieneArroba = true;
+			if (correo[i] == ' ') tieneEspacio = true;
+		}
+		if (tieneArroba && !tieneEspacio)
 		{
 			return correo;
 		}
@@ -150,7 +196,7 @@ static string leerCorreo()
 //  al centro correspondiente)
 // =====================================================================
 
-static CentroDistribucion* pedirCentro(ListaCentrosDistribucion& centros)
+ CentroDistribucion* pedirCentro(ListaCentrosDistribucion& centros)
 {
 	if (centros.estaVacia())
 	{
@@ -174,7 +220,7 @@ static CentroDistribucion* pedirCentro(ListaCentrosDistribucion& centros)
 	return centro;
 }
 
-static Cliente* pedirCliente(CentroDistribucion* centro)
+ Cliente* pedirCliente(CentroDistribucion* centro)
 {
 	Cliente* cliente = centro->getListaClientes()->buscar(leerLinea("Identificacion del cliente: "));
 	if (cliente == nullptr)
@@ -184,7 +230,7 @@ static Cliente* pedirCliente(CentroDistribucion* centro)
 	return cliente;
 }
 
-static Colaborador* pedirColaborador(CentroDistribucion* centro, const string& mensaje)
+ Colaborador* pedirColaborador(CentroDistribucion* centro, const string& mensaje)
 {
 	Colaborador* colaborador = centro->getListaColaboradores()->buscar(leerLinea(mensaje));
 	if (colaborador == nullptr)
@@ -194,7 +240,7 @@ static Colaborador* pedirColaborador(CentroDistribucion* centro, const string& m
 	return colaborador;
 }
 
-static Paquete* pedirPaquete(CentroDistribucion* centro)
+ Paquete* pedirPaquete(CentroDistribucion* centro)
 {
 	Paquete* paquete = centro->getListaPaquetes()->buscar(leerLinea("Codigo del paquete: "));
 	if (paquete == nullptr)
@@ -204,7 +250,7 @@ static Paquete* pedirPaquete(CentroDistribucion* centro)
 	return paquete;
 }
 
-static Bodega* pedirBodega(CentroDistribucion* centro)
+ Bodega* pedirBodega(CentroDistribucion* centro)
 {
 	Bodega* bodega = centro->getListaBodegas()->buscar(leerLinea("Codigo de la bodega: "));
 	if (bodega == nullptr)
@@ -218,7 +264,7 @@ static Bodega* pedirBodega(CentroDistribucion* centro)
 //  Flujos interactivos de almacenamiento
 // =====================================================================
 
-static void mostrarBodegasCompatibles(CentroDistribucion* centro, Paquete* paquete)
+ void mostrarBodegasCompatibles(CentroDistribucion* centro, Paquete* paquete)
 {
 	cout << "\nBodegas compatibles con la categoria " << paquete->getCategoria() << ":\n";
 	bool hay = false;
@@ -240,7 +286,7 @@ static void mostrarBodegasCompatibles(CentroDistribucion* centro, Paquete* paque
 	}
 }
 
-static void flujoAlmacenar(CentroDistribucion* centro, Paquete* paquete)
+ void flujoAlmacenar(CentroDistribucion* centro, Paquete* paquete)
 {
 	bool incidenciaPrevia = paquete->getEstado() == "Incidencia" && !paquete->tieneUbicacion()
 		&& paquete->getEstadoAntesIncidencia() == "Recibido";
@@ -309,7 +355,7 @@ static void flujoAlmacenar(CentroDistribucion* centro, Paquete* paquete)
 	}
 }
 
-static void flujoReubicar(CentroDistribucion* centro, Paquete* paquete)
+ void flujoReubicar(CentroDistribucion* centro, Paquete* paquete)
 {
 	if (paquete->getEstado() != "Almacenado")
 	{
@@ -341,11 +387,7 @@ static void flujoReubicar(CentroDistribucion* centro, Paquete* paquete)
 	}
 }
 
-// =====================================================================
-//  Datos quemados para agilizar las pruebas
-// =====================================================================
-
-static void cargarDatosQuemados(ListaCentrosDistribucion& centros)
+ void cargarDatosQuemados(ListaCentrosDistribucion& centros)
 {
 	string error;
 
@@ -354,7 +396,7 @@ static void cargarDatosQuemados(ListaCentrosDistribucion& centros)
 	centros.insertarCentro(cd1);
 	centros.insertarCentro(cd2);
 
-	// Clientes (persona fisica y empresa)
+	// Clientes 
 	cd1->getListaClientes()->insertar(new PersonaFisica("1-1111-1111", "Maria Rojas", "8888-1111", "maria@correo.com"));
 	cd1->getListaClientes()->insertar(new Empresa("3-101-555555", "Tecnologias del Sur S.A.", "2222-5555", "info@tecsur.com", "Venta de equipo", 10));
 	cd1->getListaClientes()->insertar(new PersonaFisica("2-2222-2222", "Luis Mora", "8888-2222", "luis@correo.com"));
@@ -388,7 +430,7 @@ static void cargarDatosQuemados(ListaCentrosDistribucion& centros)
 	cd1->getListaPaquetes()->insertarPaquete(new Paquete("PK106", "Impresora", 8.0f, "Tecnologia", empresa, "CD01"));
 	cd2->getListaPaquetes()->insertarPaquete(new Paquete("PK201", "Sacos de cafe", 20.0f, "General", cd2->getListaClientes()->buscar("3-101-777777"), "CD02"));
 
-	// Estados: PK101-PK104 y PK106 almacenados, PK105 queda Recibido
+	// Estados
 	cd1->almacenarPaquete(cd1->getListaPaquetes()->buscar("PK101"), cd1->getListaBodegas()->buscar("A"), 0, 1, ana, "10/10/2026", error);
 	cd1->almacenarPaquete(cd1->getListaPaquetes()->buscar("PK102"), cd1->getListaBodegas()->buscar("B"), 0, 0, ana, "10/10/2026", error);
 	cd1->almacenarPaquete(cd1->getListaPaquetes()->buscar("PK103"), cd1->getListaBodegas()->buscar("T"), 1, 1, pedro, "11/10/2026", error);
@@ -412,7 +454,7 @@ static void cargarDatosQuemados(ListaCentrosDistribucion& centros)
 //  Menus
 // =====================================================================
 
-static void menuCentros(ListaCentrosDistribucion& centros)
+ void menuCentros(ListaCentrosDistribucion& centros)
 {
 	int opcion = 0;
 	do
@@ -466,7 +508,7 @@ static void menuCentros(ListaCentrosDistribucion& centros)
 	} while (opcion != 5);
 }
 
-static void menuClientes(ListaCentrosDistribucion& centros)
+ void menuClientes(ListaCentrosDistribucion& centros)
 {
 	CentroDistribucion* centro = pedirCentro(centros);
 	if (centro == nullptr) return;
@@ -524,7 +566,7 @@ static void menuClientes(ListaCentrosDistribucion& centros)
 	} while (opcion != 5);
 }
 
-static void menuColaboradores(ListaCentrosDistribucion& centros)
+ void menuColaboradores(ListaCentrosDistribucion& centros)
 {
 	CentroDistribucion* centro = pedirCentro(centros);
 	if (centro == nullptr) return;
@@ -570,7 +612,7 @@ static void menuColaboradores(ListaCentrosDistribucion& centros)
 	} while (opcion != 5);
 }
 
-static void menuBodegas(ListaCentrosDistribucion& centros)
+ void menuBodegas(ListaCentrosDistribucion& centros)
 {
 	CentroDistribucion* centro = pedirCentro(centros);
 	if (centro == nullptr) return;
@@ -644,7 +686,7 @@ static void menuBodegas(ListaCentrosDistribucion& centros)
 	} while (opcion != 7);
 }
 
-static void registrarPaquete(ListaCentrosDistribucion& centros, CentroDistribucion* centro)
+ void registrarPaquete(ListaCentrosDistribucion& centros, CentroDistribucion* centro)
 {
 	string codigo = leerLinea("Codigo del paquete (unico en todo el sistema): ");
 	if (centros.buscarPaquete(codigo) != nullptr)
@@ -676,7 +718,7 @@ static void registrarPaquete(ListaCentrosDistribucion& centros, CentroDistribuci
 	}
 }
 
-static void menuPaquetes(ListaCentrosDistribucion& centros)
+ void menuPaquetes(ListaCentrosDistribucion& centros)
 {
 	CentroDistribucion* centro = pedirCentro(centros);
 	if (centro == nullptr) return;
@@ -759,7 +801,7 @@ static void menuPaquetes(ListaCentrosDistribucion& centros)
 	} while (opcion != 10);
 }
 
-static void menuSolicitudes(ListaCentrosDistribucion& centros)
+ void menuSolicitudes(ListaCentrosDistribucion& centros)
 {
 	CentroDistribucion* centro = pedirCentro(centros);
 	if (centro == nullptr) return;
@@ -859,7 +901,7 @@ static void menuSolicitudes(ListaCentrosDistribucion& centros)
 	} while (opcion != 7);
 }
 
-static void menuDespachos(ListaCentrosDistribucion& centros)
+ void menuDespachos(ListaCentrosDistribucion& centros)
 {
 	CentroDistribucion* centro = pedirCentro(centros);
 	if (centro == nullptr) return;
@@ -899,7 +941,7 @@ static void menuDespachos(ListaCentrosDistribucion& centros)
 	} while (opcion != 4);
 }
 
-static void menuReportes(ListaCentrosDistribucion& centros)
+ void menuReportes(ListaCentrosDistribucion& centros)
 {
 	int opcion = 0;
 	do
@@ -982,8 +1024,8 @@ int main()
 		cout << "1. Centros de distribucion\n";
 		cout << "2. Clientes\n";
 		cout << "3. Colaboradores\n";
-		cout << "4. Bodegas y consulta de matrices\n";
-		cout << "5. Paquetes, almacenamiento, reubicacion y cambios de estado\n";
+		cout << "4. Bodegas \n";
+		cout << "5. Paquetes\n";
 		cout << "6. Solicitudes de envio\n";
 		cout << "7. Despachos\n";
 		cout << "8. Reportes\n";
