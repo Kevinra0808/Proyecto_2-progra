@@ -17,10 +17,10 @@ public:
 
 	void insertarDespacho(Despacho* nuevaDespacho);
 	void mostrarDespachos() const;
-	NodoDespacho* buscar(string codigo) const;
+	Despacho* buscar(string codigo) const;
 
-	bool cambiarEstado(string codigo, string nuevoEstado);
 	bool estaVacio() const;
+	NodoDespacho* getPrimero() const;
 };
 
 #endif // !LISTADESPACHOS_H

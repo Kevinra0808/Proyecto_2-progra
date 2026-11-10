@@ -79,10 +79,6 @@ void Despacho::setHora(string hora) {
 	this->hora = hora;
 }
 
-void Despacho::setEstado(string nuevoEstado) {
-	this->estado = nuevoEstado;
-}
-
 void Despacho::mostrarDespacho() const {
 	cout << "Codigo de Despacho: " << codigo << endl;
 	if (solicitudAsociada != nullptr && paquete != nullptr && cliente != nullptr && responsable != nullptr)
@@ -99,13 +95,13 @@ void Despacho::mostrarDespacho() const {
 	cout << "Estado: " << estado << endl;
 }
 
-bool Despacho::finalizarEntrega(Despacho* despacho, Paquete* paquete) {
-	if (despacho->getEstado() == "En proceso" && paquete->getEstado() == "En transito") {
-		despacho->setEstado("Finalizado");
-		paquete->setEstado("Entregado");
+bool Despacho::finalizarEntrega(string fecha) {
+	if (estado == "En proceso" && paquete->getEstado() == "En transito") {
+		if (!paquete->cambiarEstado("Entregado", responsable, fecha)) {
+			return false;
+		}
+		estado = "Finalizado";
 		return true;
 	}
-	else {
-		return false;
-	}
+	return false;
 }

@@ -6,7 +6,6 @@ using namespace std;
 ListaDespachos::ListaDespachos() {
 	primero = nullptr;
 	actual = nullptr;
-
 	cantidad = 0;
 }
 
@@ -15,12 +14,13 @@ ListaDespachos::~ListaDespachos() {
 	{
 		NodoDespacho* borrar = primero;
 		primero = primero->getSiguiente();
+		delete borrar->getDato();
 		delete borrar;
 	}
 }
 
-void ListaDespachos::insertarDespacho(Despacho* nuevoDespacho) {
-	NodoDespacho* nuevo = new NodoDespacho(nuevoDespacho);
+void ListaDespachos::insertarDespacho(Despacho* nuevaDespacho) {
+	NodoDespacho* nuevo = new NodoDespacho(nuevaDespacho);
 	if (primero == nullptr)
 	{
 		primero = nuevo;
@@ -40,6 +40,11 @@ void ListaDespachos::insertarDespacho(Despacho* nuevoDespacho) {
 void ListaDespachos::mostrarDespachos() const {
 	NodoDespacho* aux = primero;
 
+	if (aux == nullptr)
+	{
+		cout << "No hay despachos registrados." << endl;
+	}
+
 	while (aux != nullptr)
 	{
 		aux->getDato()->mostrarDespacho();
@@ -49,32 +54,24 @@ void ListaDespachos::mostrarDespachos() const {
 	}
 }
 
-NodoDespacho* ListaDespachos::buscar(string codigo) const {
+Despacho* ListaDespachos::buscar(string codigo) const {
 	NodoDespacho* aux = primero;
 
 	while (aux != nullptr)
 	{
 		if (aux->getDato()->getCodigo() == codigo)
 		{
-			return aux;
+			return aux->getDato();
 		}
-		else
-		{
-			aux = aux->getSiguiente();
-		}
+		aux = aux->getSiguiente();
 	}
 	return nullptr;
 }
 
-bool ListaDespachos::cambiarEstado(string codigo, string nuevoEstado) {
-	NodoDespacho* nodoEncontrado = buscar(codigo);
-	if (nodoEncontrado != nullptr) {
-		nodoEncontrado->getDato()->setEstado(nuevoEstado);
-		return true;
-	}
-	return false;
-}
-
 bool ListaDespachos::estaVacio() const {
 	return primero == nullptr;
+}
+
+NodoDespacho* ListaDespachos::getPrimero() const {
+	return primero;
 }

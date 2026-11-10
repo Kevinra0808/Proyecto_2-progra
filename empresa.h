@@ -16,7 +16,8 @@ public:
 
 	//Gets
 	string getActiviEco() const;
-	float getDescuento() const;
+	float getDescuento() const override;
+	string getTipo() const override;
 
 	//Sets
 	void setActiviEco(string activiEco);

@@ -16,14 +16,14 @@ public:
 
 	void insertarSolicitud(SolicitudEnvio* nuevaSolicitud);
 	void mostrarSolicitudes() const;
-	NodoSolicitud* buscar(string codigo) const;
+	SolicitudEnvio* buscar(string codigo) const;
 
+	// Solo permite Pendiente -> Rechazada / Anulada (la aprobacion se hace en CentroDistribucion)
 	bool cambiarEstado(string codigo, string nuevoEstado);
 
 	bool estaVacio() const;
+	NodoSolicitud* getPrimero() const;
 	
 };
 
 #endif // !LISTASOLICITUDES_H
-
-

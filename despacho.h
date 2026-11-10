@@ -45,10 +45,12 @@ public:
 	void setDestino(string destino);
 	void setFechaDespacho(string fechaDespacho);
 	void setHora(string hora);
-	void setEstado(string nuevoEstado);
 
 	void mostrarDespacho() const;
-	bool finalizarEntrega(Despacho* despacho, Paquete* paquete);
+
+	// Solo se finaliza si el despacho esta En proceso y el paquete En transito.
+	// Cambia el despacho a Finalizado y el paquete a Entregado (queda en la bitacora).
+	bool finalizarEntrega(string fecha);
 };
 
-#endif // !DESPACHO_H
+#endif // !DESPACHO_H

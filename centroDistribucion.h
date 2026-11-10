@@ -48,6 +48,40 @@ public:
 
 	void mostrarCentro() const;
 	bool estaVacio() const;
+
+	// ---------- Busquedas auxiliares ----------
+	bool perteneceCliente(Cliente* cliente);
+	bool perteneceColaborador(Colaborador* colaborador);
+	Despacho* buscarDespachoDePaquete(Paquete* paquete);
+	SolicitudEnvio* buscarSolicitudPendienteDePaquete(Paquete* paquete);
+	SolicitudEnvio* buscarSolicitudAprobadaDePaquete(Paquete* paquete);
+
+	// ---------- Almacenamiento de paquetes ----------
+	// Bodega compatible con mayor porcentaje de espacio disponible (nullptr si no hay espacio)
+	Bodega* recomendarBodega(Paquete* paquete);
+	bool hayBodegaCompatibleConEspacio(Paquete* paquete);
+	bool almacenarPaquete(Paquete* paquete, Bodega* bodega, int fila, int columna, Colaborador* responsable, string fecha, string& error);
+	bool reubicarPaquete(Paquete* paquete, Bodega* destino, int fila, int columna, string& error);
+	bool registrarIncidencia(Paquete* paquete, Colaborador* responsable, string fecha, string& error);
+	bool resolverIncidencia(Paquete* paquete, Colaborador* responsable, string fecha, string& error);
+
+	// ---------- Solicitudes y despachos ----------
+	SolicitudEnvio* crearSolicitud(string codigo, Cliente* cliente, Paquete* paquete, Colaborador* responsable, string destino, string fecha, string& error);
+	Despacho* aprobarSolicitud(SolicitudEnvio* solicitud, string codigoDespacho, string fecha, string hora, string& error);
+	bool finalizarDespacho(Despacho* despacho, string fecha, string& error);
+
+	// ---------- Eliminaciones (respetan las dependencias) ----------
+	bool eliminarCliente(string identificacion, string& error);
+	bool eliminarColaborador(string identificacion, string& error);
+	bool eliminarPaquete(string codigo, string& error);
+	bool eliminarBodega(string codigo, string& error);
+
+	// ---------- Reportes ----------
+	void reporteHistorialCliente(Cliente* cliente);
+	void reporteClientesPorEnvios();
+	void reporteDespachoDePaquete(Paquete* paquete);
+	void reporteOcupacionBodegas();
+	void reporteDespachosPorColaborador(Colaborador* colaborador);
 };
 
 #endif // !CENTRODISTRIBUCION_H

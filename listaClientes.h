@@ -19,11 +19,10 @@ public:
 	void insertar(Cliente* cliente);
 	Cliente* buscar(string identi) const;
 	void mostrarTodos() const;
+	bool eliminar(string identi); // las dependencias se validan en CentroDistribucion
 	bool estaVacio() const;
+	NodoCliente* getPrimero() const;
 
 };
 
 #endif // !LISTACLIENTES_H
-
-
-

@@ -6,6 +6,7 @@ using namespace std;
 ListaBodegas::ListaBodegas() {
 	primero = nullptr;
 	actual = nullptr;
+	cantidad = 0;
 }
 
 ListaBodegas::~ListaBodegas() {
@@ -13,6 +14,7 @@ ListaBodegas::~ListaBodegas() {
 	{
 		NodoBodega* borrar = primero;
 		primero = primero->getSiguiente();
+		delete borrar->getDato();
 		delete borrar;
 	}
 }
@@ -32,14 +34,20 @@ void ListaBodegas::insertarBodega(Bodega* nuevoBodega) {
 		}
 		aux->setSiguiente(nuevo);
 	}
+	cantidad++;
 }
 
 void ListaBodegas::mostrar() const {
 	NodoBodega* aux = primero;
 
+	if (aux == nullptr)
+	{
+		cout << "No hay bodegas registradas." << endl;
+	}
+
 	while (aux != nullptr)
 	{
-		aux->getDato()->mostrarBodega();
+		aux->getDato()->mostrarResumen();
 		cout << endl;
 
 		aux = aux->getSiguiente();
@@ -72,7 +80,6 @@ bool ListaBodegas::eliminarBodega(string codigo) {
 		if (actual->getDato()->getCodigo() == codigo)
 		{
 			if (!actual->getDato()->estaVacia()) {
-				cout << "Error: La bodega no se puede eliminar porque aun tiene paquetes." << endl;
 				return false;
 			}
 
@@ -98,4 +105,12 @@ bool ListaBodegas::eliminarBodega(string codigo) {
 
 bool ListaBodegas::estaVacio() const {
 	return primero == nullptr;
+}
+
+int ListaBodegas::getCantidad() const {
+	return cantidad;
+}
+
+NodoBodega* ListaBodegas::getPrimero() const {
+	return primero;
 }

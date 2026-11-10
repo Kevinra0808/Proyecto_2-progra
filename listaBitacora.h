@@ -14,6 +14,9 @@ public:
 
 	void insertarBitacora(Bitacora* nuevoBitacora);
 	void mostrarBitacora() const;
+	bool estaVacia() const;
+	NodoBitacora* getPrimero() const;
+	bool contieneResponsable(Colaborador* colaborador) const;
 
 };
 

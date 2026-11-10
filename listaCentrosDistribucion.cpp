@@ -13,6 +13,7 @@ ListaCentrosDistribucion::~ListaCentrosDistribucion() {
 	{
 		NodoCentroDistribucion* borrar = primero;
 		primero = primero->getSiguiente();
+		delete borrar->getDato();
 		delete borrar;
 	}
 }
@@ -36,6 +37,11 @@ void ListaCentrosDistribucion::insertarCentro(CentroDistribucion* nuevoCentro) {
 
 void ListaCentrosDistribucion::mostrarCentros() const {
 	NodoCentroDistribucion* aux = primero;
+
+	if (aux == nullptr)
+	{
+		cout << "No hay centros de distribucion registrados." << endl;
+	}
 
 	while (aux != nullptr)
 	{
@@ -64,34 +70,86 @@ CentroDistribucion* ListaCentrosDistribucion::buscar(string codigo) const {
 }
 
 bool ListaCentrosDistribucion::eliminarCentro(string codigo) {
-	NodoCentroDistribucion* actual = primero;
+	NodoCentroDistribucion* aux = primero;
 	NodoCentroDistribucion* anterior = nullptr;
 
-	while (actual != nullptr)
+	while (aux != nullptr)
 	{
-		if (actual->getDato()->getCodigo() == codigo)
+		if (aux->getDato()->getCodigo() == codigo)
 		{
-			if (!actual->getDato()->estaVacio()) {	
-				cout << "Error: El centro de distribucion no se puede eliminar porque aun tiene paquetes." << endl;
+			if (!aux->getDato()->estaVacio()) {	
 				return false;
 			}
 
 			if (anterior == nullptr)
 			{
-				primero = actual->getSiguiente();
+				primero = aux->getSiguiente();
 			}
 			else
 			{
-				anterior->setSiguiente(actual->getSiguiente());
+				anterior->setSiguiente(aux->getSiguiente());
 			}
 
-			delete actual->getDato();
-			delete actual;
+			delete aux->getDato();
+			delete aux;
 			
 			return true;
 		}
-		anterior = actual;
-		actual = actual->getSiguiente();
+		anterior = aux;
+		aux = aux->getSiguiente();
 	}
 	return false;
+}
+
+bool ListaCentrosDistribucion::estaVacia() const {
+	return primero == nullptr;
+}
+
+NodoCentroDistribucion* ListaCentrosDistribucion::getPrimero() const {
+	return primero;
+}
+
+Paquete* ListaCentrosDistribucion::buscarPaquete(string codigo) const {
+	NodoCentroDistribucion* aux = primero;
+
+	while (aux != nullptr)
+	{
+		Paquete* encontrado = aux->getDato()->getListaPaquetes()->buscar(codigo);
+		if (encontrado != nullptr)
+		{
+			return encontrado;
+		}
+		aux = aux->getSiguiente();
+	}
+	return nullptr;
+}
+
+SolicitudEnvio* ListaCentrosDistribucion::buscarSolicitud(string codigo) const {
+	NodoCentroDistribucion* aux = primero;
+
+	while (aux != nullptr)
+	{
+		SolicitudEnvio* encontrada = aux->getDato()->getListaSolicitudes()->buscar(codigo);
+		if (encontrada != nullptr)
+		{
+			return encontrada;
+		}
+		aux = aux->getSiguiente();
+	}
+	return nullptr;
+}
+
+Despacho* ListaCentrosDistribucion::buscarDespacho(string codigo) const {
+	NodoCentroDistribucion* aux = primero;
+
+	while (aux != nullptr)
+	{
+		Despacho* encontrado = aux->getDato()->getListaDespachos()->buscar(codigo);
+		if (encontrado != nullptr)
+		{
+			return encontrado;
+		}
+		aux = aux->getSiguiente();
+	}
+	return nullptr;
 }

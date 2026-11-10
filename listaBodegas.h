@@ -20,13 +20,13 @@ public:
 	void mostrar() const;
 	Bodega* buscar(string codigo) const;
 
+	// Solo elimina si todas las celdas estan libres
 	bool eliminarBodega(string codigo);
 
 	bool estaVacio() const;
+	int getCantidad() const;
+	NodoBodega* getPrimero() const;
 };
 
 
 #endif // !LISTABODEGAS_H
-
-
-

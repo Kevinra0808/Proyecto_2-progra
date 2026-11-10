@@ -32,3 +32,7 @@ void Empresa::mostrarInfo() const {
 	cout << "Descuento permitido: " << descuento << endl;
 }
 
+
+string Empresa::getTipo() const {
+	return "Empresa";
+}

@@ -19,6 +19,11 @@ private:
 	double costoEstimado;
 	string estado;
 
+	// Tarifas por kilogramo: datos compartidos de la aplicacion (no se escriben dentro de cada calculo)
+	static const double TARIFA_GENERAL;
+	static const double TARIFA_FRAGIL;
+	static const double TARIFA_TECNOLOGIA;
+	static const double TARIFA_DOCUMENTOS;
 
 public:
 	SolicitudEnvio(string codigo, Cliente* soliCliente, Paquete* paquete, Colaborador* responsable, string centroOrigen, string destinoEntrega, string fechaSoli);
@@ -42,9 +47,12 @@ public:
 	void setDestinoEntrega(string destinoEntrega);
 	void setFechaSoli(string fechaSoli);
 	void setCostoEstimado(double costoEstimado);
-	void setEstado(string nuevoEstado);
+
+	// Pendiente -> Aprobada / Rechazada / Anulada. Estos tres estados son finales.
+	bool cambiarEstado(string nuevoEstado);
 
 	void mostrarSolicitud() const;
+	static double getTarifa(string categoria); // -1 si la categoria no es valida
 	double calcularCostoBase(float peso, string categoria) const;
 	void calcularCostoEstimado();
 };

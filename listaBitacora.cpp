@@ -13,6 +13,7 @@ ListaBitacora::~ListaBitacora() {
 	{
 		NodoBitacora* borrar = primero;
 		primero = primero->getSiguiente();
+		delete borrar->getDato();
 		delete borrar;
 	}
 }
@@ -44,4 +45,26 @@ void ListaBitacora::mostrarBitacora() const {
 
 		aux = aux->getSiguiente();
 	}
+}
+
+bool ListaBitacora::estaVacia() const {
+	return primero == nullptr;
+}
+
+NodoBitacora* ListaBitacora::getPrimero() const {
+	return primero;
+}
+
+bool ListaBitacora::contieneResponsable(Colaborador* colaborador) const {
+	NodoBitacora* aux = primero;
+
+	while (aux != nullptr)
+	{
+		if (aux->getDato()->getResponsable() == colaborador)
+		{
+			return true;
+		}
+		aux = aux->getSiguiente();
+	}
+	return false;
 }

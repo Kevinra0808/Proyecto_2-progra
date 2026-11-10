@@ -18,10 +18,10 @@ public:
 	void insertarPaquete(Paquete* nuevoPaquete);
 	void mostrar() const;
 	Paquete* buscar(string codigo) const;
+	bool eliminar(string codigo); // las condiciones se validan en CentroDistribucion
 	bool estaVacio() const;
+	NodoPaquete* getPrimero() const;
 
 };
 
 #endif // !LISTAPAQUETES_H
-
-

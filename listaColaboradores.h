@@ -18,11 +18,10 @@ public:
 	void insertarColaborador(Colaborador* nuevoColaborador);
 	void mostrar() const;
 	Colaborador* buscar(string identi) const;
+	bool eliminar(string identi); // las dependencias se validan en CentroDistribucion
 	bool estaVacio() const;
+	NodoColaborador* getPrimero() const;
 
 };
 
 #endif // !LISTACOLABORADORES_H
-
-
-

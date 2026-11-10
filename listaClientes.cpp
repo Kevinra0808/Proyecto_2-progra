@@ -13,6 +13,7 @@ ListaCliente::~ListaCliente() {
 	{
 		NodoCliente* borrar = primero;
 		primero = primero->getSiguiente();
+		delete borrar->getCliente();
 		delete borrar;
 	}
 }
@@ -55,6 +56,11 @@ Cliente* ListaCliente::buscar(string identi) const {
 void ListaCliente::mostrarTodos() const {
 	NodoCliente* aux = primero;
 
+	if (aux == nullptr)
+	{
+		cout << "No hay clientes registrados." << endl;
+	}
+
 	while (aux != nullptr)
 	{
 		aux->getCliente()->mostrarInfo();
@@ -64,6 +70,36 @@ void ListaCliente::mostrarTodos() const {
 	}
 }
 
+bool ListaCliente::eliminar(string identi) {
+	NodoCliente* aux = primero;
+	NodoCliente* anterior = nullptr;
+
+	while (aux != nullptr)
+	{
+		if (aux->getCliente()->getIdentificacion() == identi)
+		{
+			if (anterior == nullptr)
+			{
+				primero = aux->getSiguiente();
+			}
+			else
+			{
+				anterior->setSiguiente(aux->getSiguiente());
+			}
+			delete aux->getCliente();
+			delete aux;
+			return true;
+		}
+		anterior = aux;
+		aux = aux->getSiguiente();
+	}
+	return false;
+}
+
 bool ListaCliente::estaVacio() const {
 	return primero == nullptr;
+}
+
+NodoCliente* ListaCliente::getPrimero() const {
+	return primero;
 }

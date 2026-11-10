@@ -3,6 +3,11 @@
 
 using namespace std;
 
+const double SolicitudEnvio::TARIFA_GENERAL = 1500;
+const double SolicitudEnvio::TARIFA_FRAGIL = 2000;
+const double SolicitudEnvio::TARIFA_TECNOLOGIA = 2500;
+const double SolicitudEnvio::TARIFA_DOCUMENTOS = 1000;
+
 SolicitudEnvio::SolicitudEnvio(string codigo, Cliente* soliCliente, Paquete* paquete, Colaborador* responsable, string centroOrigen, string destinoEntrega, string fechaSoli) {
 	this->codigo = codigo;
 	this->soliCliente = soliCliente;
@@ -67,8 +72,15 @@ void SolicitudEnvio::setFechaSoli(string fechaSoli) {
 void SolicitudEnvio::setCostoEstimado(double costoEstimado) {
 	this->costoEstimado = costoEstimado;
 }
-void SolicitudEnvio::setEstado(string nuevoEstado) {
-	this->estado = nuevoEstado;
+bool SolicitudEnvio::cambiarEstado(string nuevoEstado) {
+	if (estado != "Pendiente") {
+		return false; // Aprobada, Rechazada y Anulada son estados finales
+	}
+	if (nuevoEstado != "Aprobada" && nuevoEstado != "Rechazada" && nuevoEstado != "Anulada") {
+		return false;
+	}
+	estado = nuevoEstado;
+	return true;
 }
 
 void SolicitudEnvio::mostrarSolicitud() const {
@@ -87,47 +99,27 @@ void SolicitudEnvio::mostrarSolicitud() const {
 	cout << "Estado: " << estado << endl;
 }
 
+double SolicitudEnvio::getTarifa(string categoria) {
+	if (categoria == "General") return TARIFA_GENERAL;
+	if (categoria == "Fragil") return TARIFA_FRAGIL;
+	if (categoria == "Tecnologia") return TARIFA_TECNOLOGIA;
+	if (categoria == "Documentos") return TARIFA_DOCUMENTOS;
+	return -1;
+}
+
 double SolicitudEnvio::calcularCostoBase(float peso, string categoria) const {
+	double tarifa = getTarifa(categoria);
 
-	for (int i = 0; i < categoria.length(); i++)
-	{
-		categoria[i] = tolower(categoria[i]);
+	if (tarifa < 0) {
+		return -1; // categoria no valida
 	}
-
-	if (categoria == "general")
-	{
-		return peso * 1500;
-	}
-	else if (categoria == "fragil")
-	{
-		return peso * 2000;
-	}
-	else if (categoria == "tecnologia")
-	{
-		return peso * 2500;
-	}
-	else if (categoria == "documentos")
-	{
-		return peso * 1000;
-	}
-	else {
-		int error = -1; // Codigo de error para categoria no valida
-		return error;
-	}
+	return peso * tarifa;
 }
 
 void SolicitudEnvio::calcularCostoEstimado() {
-	float costoBase = calcularCostoBase(paquete->getPeso(), paquete->getCategoria());
-	Empresa* empresa = dynamic_cast<Empresa*>(soliCliente);
-	
-	if (empresa != nullptr)
-	{
-		costoEstimado = costoBase - ((costoBase * empresa->getDescuento()) / 100);
-		cout << "Costo estimado con descuento aplicado: " << costoEstimado << endl;
-	}
-	else
-	{
-		costoEstimado = costoBase;
-		cout << "Costo estimado: " << costoEstimado << endl;
-	}
+	double costoBase = calcularCostoBase(paquete->getPeso(), paquete->getCategoria());
+
+	// Las personas fisicas devuelven 0% de descuento; las empresas, su porcentaje autorizado
+	float descuento = soliCliente->getDescuento();
+	costoEstimado = costoBase - ((costoBase * descuento) / 100);
 }

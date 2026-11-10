@@ -16,10 +16,15 @@ public:
 	void insertarCentro(CentroDistribucion* dato);
 	void mostrarCentros() const;
 	CentroDistribucion* buscar(string codigo) const;
-	bool eliminarCentro(string codigo);
+	bool eliminarCentro(string codigo); // solo si el centro no tiene datos asociados
+	bool estaVacia() const;
+	NodoCentroDistribucion* getPrimero() const;
+
+	// Busquedas globales (los codigos de paquete, solicitud y despacho son unicos en todo el sistema)
+	Paquete* buscarPaquete(string codigo) const;
+	SolicitudEnvio* buscarSolicitud(string codigo) const;
+	Despacho* buscarDespacho(string codigo) const;
 
 };
 
 #endif // !LISTACENTROSDISTRIBUCION_H
-
-

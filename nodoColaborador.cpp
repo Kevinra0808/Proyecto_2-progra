@@ -1,4 +1,4 @@
-#include "NodoColaborador.h"
+#include "nodoColaborador.h"
 #include <string>
 
 using namespace std;

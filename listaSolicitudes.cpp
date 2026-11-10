@@ -6,6 +6,7 @@ using namespace std;
 ListaSolicitudes::ListaSolicitudes() {
 	primero = nullptr;
 	actual = nullptr;
+	cantidad = 0;
 }
 
 ListaSolicitudes::~ListaSolicitudes() {
@@ -13,12 +14,13 @@ ListaSolicitudes::~ListaSolicitudes() {
 	{
 		NodoSolicitud* borrar = primero;
 		primero = primero->getSiguiente();
+		delete borrar->getDato();
 		delete borrar;
 	}
 }
 
-void ListaSolicitudes::insertarSolicitud(SolicitudEnvio* nuevoSolicitud) {
-	NodoSolicitud* nuevo = new NodoSolicitud(nuevoSolicitud);
+void ListaSolicitudes::insertarSolicitud(SolicitudEnvio* nuevaSolicitud) {
+	NodoSolicitud* nuevo = new NodoSolicitud(nuevaSolicitud);
 	if (primero == nullptr)
 	{
 		primero = nuevo;
@@ -32,10 +34,16 @@ void ListaSolicitudes::insertarSolicitud(SolicitudEnvio* nuevoSolicitud) {
 		}
 		aux->setSiguiente(nuevo);
 	}
+	cantidad++;
 }
 
 void ListaSolicitudes::mostrarSolicitudes() const {
 	NodoSolicitud* aux = primero;
+
+	if (aux == nullptr)
+	{
+		cout << "No hay solicitudes registradas." << endl;
+	}
 
 	while (aux != nullptr)
 	{
@@ -46,32 +54,34 @@ void ListaSolicitudes::mostrarSolicitudes() const {
 	}
 }
 
-NodoSolicitud* ListaSolicitudes::buscar(string codigo) const {
+SolicitudEnvio* ListaSolicitudes::buscar(string codigo) const {
 	NodoSolicitud* aux = primero;
 
 	while (aux != nullptr)
 	{
 		if (aux->getDato()->getCodigo() == codigo)
 		{
-			return aux;
+			return aux->getDato();
 		}
-		else
-		{
-			aux = aux->getSiguiente();
-		}
+		aux = aux->getSiguiente();
 	}
 	return nullptr;
 }
 
 bool ListaSolicitudes::cambiarEstado(string codigo, string nuevoEstado) {
-	NodoSolicitud* nodoEncontrado = buscar(codigo);
-	if (nodoEncontrado != nullptr) {
-		nodoEncontrado->getDato()->setEstado(nuevoEstado);
-		return true;
+	SolicitudEnvio* solicitud = buscar(codigo);
+
+	if (solicitud == nullptr || nuevoEstado == "Aprobada")
+	{
+		return false;
 	}
-	return false;
+	return solicitud->cambiarEstado(nuevoEstado);
 }
 
 bool ListaSolicitudes::estaVacio() const {
 	return primero == nullptr;
+}
+
+NodoSolicitud* ListaSolicitudes::getPrimero() const {
+	return primero;
 }
